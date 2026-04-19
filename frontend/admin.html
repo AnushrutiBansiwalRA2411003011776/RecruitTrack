@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - RecruitTrack</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --background: #f2f0ef;
+        --surface: #ffffff;
+        --border: #e5e7eb;
+        --text: #111827;
+        --muted: #6b7280;
+        --accent: #4f46e5;
+        --success: #16a34a;
+        --error: #dc2626;
+        --radius: 12px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "DM Sans", sans-serif;
+        background: var(--background);
+        color: var(--text);
+      }
+
+      body,
+      button,
+      input,
+      select,
+      textarea {
+        font-family: inherit;
+      }
+
+      .page-shell {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+      }
+
+      .header h1 {
+        margin: 0;
+        font-size: 1.75rem;
+        font-weight: 700;
+      }
+
+      .back-link {
+        background: var(--accent);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 9px 22px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+
+      .section {
+        margin-bottom: 2rem;
+      }
+
+      .section-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.5rem;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+      }
+
+      .section-card + .section-card {
+        margin-top: 1rem;
+      }
+
+      .section h2 {
+        margin: 0 0 1rem;
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      .form-grid-3 {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .form-grid-2 {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .form-group label {
+        margin-bottom: 0.5rem;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      input,
+      select,
+      textarea {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 14px;
+        outline: none;
+        background: white;
+      }
+
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .secondary-title {
+        margin: 1.5rem 0 0.75rem;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      .full-width {
+        grid-column: 1 / -1;
+      }
+
+      .btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 9px 22px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        background: #4338ca;
+      }
+
+      .tables-grid {
+        display: grid;
+        gap: 1.5rem;
+      }
+
+      .table-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1rem;
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        padding: 0.85rem 1rem;
+        text-align: left;
+      }
+
+      thead {
+        background: #f9fafb;
+      }
+
+      th {
+        font-size: 13px;
+        font-weight: 600;
+        color: #6b7280;
+      }
+
+      tbody tr {
+        border-bottom: 1px solid #f3f4f6;
+      }
+
+      tbody tr:hover {
+        background: #f9fafb;
+      }
+
+      td {
+        font-size: 14px;
+        color: var(--text);
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .badge-applied {
+        background: #eff6ff;
+        color: #1d4ed8;
+      }
+
+      .badge-interview {
+        background: #fffbeb;
+        color: #b45309;
+      }
+
+      .badge-offer {
+        background: #f0fdf4;
+        color: #15803d;
+      }
+
+      .badge-rejected {
+        background: #fef2f2;
+        color: #b91c1c;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        min-width: 240px;
+        padding: 0.95rem 1rem;
+        border-radius: 10px;
+        color: white;
+        font-weight: 500;
+        opacity: 0;
+        transform: translateY(10px);
+        transition:
+          opacity 0.2s ease,
+          transform 0.2s ease;
+        z-index: 999;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .toast.success {
+        background: var(--accent);
+      }
+
+      .toast.error {
+        background: var(--error);
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      @media (max-width: 1024px) {
+        .form-grid-3 {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 640px) {
+        .page-shell {
+          padding: 1rem;
+        }
+
+        .form-grid-3,
+        .form-grid-2 {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="header">
+        <h1>Admin Dashboard</h1>
+        <button class="back-link" onclick="window.location = 'index.html'">
+          Back to Home
+        </button>
+      </header>
+
+      <section class="section">
+        <h2>Add Job Posting</h2>
+        <div class="section-card">
+          <form id="jobForm">
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label for="companySelect">Company</label>
+                <select id="companySelect" required>
+                  <option value="">Select Company</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="role">Role</label>
+                <input type="text" id="role" required />
+              </div>
+              <div class="form-group">
+                <label for="required_skills">Required Skills</label>
+                <input type="text" id="required_skills" required />
+              </div>
+              <div class="form-group">
+                <label for="work_mode">Work Mode</label>
+                <select id="work_mode" required>
+                  <option value="">Select Work Mode</option>
+                  <option value="Remote">Remote</option>
+                  <option value="Hybrid">Hybrid</option>
+                  <option value="On-site">On-site</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="experience_required">Experience Required</label>
+                <input
+                  type="text"
+                  id="experience_required"
+                  placeholder="0–2 years"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="package_offered">Package Offered (LPA)</label>
+                <input
+                  type="number"
+                  id="package_offered"
+                  step="0.01"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="no_of_openings">Number of Openings</label>
+                <input type="number" id="no_of_openings" required />
+              </div>
+            </div>
+
+            <p class="secondary-title">Eligibility Criteria</p>
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label for="min_cgpa">Min CGPA</label>
+                <input
+                  type="number"
+                  id="min_cgpa"
+                  step="0.1"
+                  min="0"
+                  max="10"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="max_backlogs">Max Backlogs Allowed</label>
+                <input type="number" id="max_backlogs" min="0" required />
+              </div>
+              <div class="form-group">
+                <label for="departments_allowed">Departments Allowed</label>
+                <input
+                  type="text"
+                  id="departments_allowed"
+                  placeholder="CSE,ECE"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group full-width" style="margin-top: 1rem">
+              <button type="submit" class="btn">Post Job</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Schedule Interview</h2>
+        <div class="section-card">
+          <form id="interviewForm">
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="applicationSelect">Application</label>
+                <select id="applicationSelect" required>
+                  <option value="">Select Application</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="interview_type">Interview Type</label>
+                <select id="interview_type" required>
+                  <option value="">Select Type</option>
+                  <option value="Technical">Technical</option>
+                  <option value="HR">HR</option>
+                  <option value="Managerial">Managerial</option>
+                  <option value="Group Discussion">Group Discussion</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="round_number">Round Number</label>
+                <input type="number" id="round_number" min="1" required />
+              </div>
+              <div class="form-group">
+                <label for="interview_date">Interview Date</label>
+                <input type="date" id="interview_date" required />
+              </div>
+              <div class="form-group">
+                <label for="score">Score</label>
+                <input type="number" id="score" min="0" max="100" />
+              </div>
+              <div class="form-group full-width">
+                <label for="feedback">Feedback</label>
+                <textarea id="feedback"></textarea>
+              </div>
+            </div>
+            <div class="form-group full-width" style="margin-top: 1rem">
+              <button type="submit" class="btn">Schedule Interview</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Add Result</h2>
+        <div class="section-card">
+          <form id="resultForm">
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="applicationSelectResult">Application</label>
+                <select id="applicationSelectResult" required>
+                  <option value="">Select Application</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="final_status">Final Status</label>
+                <select id="final_status" required>
+                  <option value="">Select Status</option>
+                  <option value="Selected">Selected</option>
+                  <option value="Rejected">Rejected</option>
+                  <option value="Waitlisted">Waitlisted</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="offer_letter_status">Offer Letter Status</label>
+                <select id="offer_letter_status" required>
+                  <option value="">Select Status</option>
+                  <option value="Sent">Sent</option>
+                  <option value="Not Sent">Not Sent</option>
+                  <option value="Pending">Pending</option>
+                </select>
+              </div>
+              <div class="form-group hidden" id="joiningDateGroup">
+                <label for="joining_date">Joining Date</label>
+                <input type="date" id="joining_date" />
+              </div>
+            </div>
+            <div class="form-group full-width" style="margin-top: 1rem">
+              <button type="submit" class="btn">Add Result</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Data Tables</h2>
+        <div class="tables-grid">
+          <div class="table-card">
+            <h3 style="font-size: 16px; margin-bottom: 1rem">Students</h3>
+            <table id="studentsTable">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>CGPA</th>
+                  <th>Backlogs</th>
+                  <th>Department</th>
+                  <th>Skills</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="table-card">
+            <h3 style="font-size: 16px; margin-bottom: 1rem">Jobs</h3>
+            <table id="jobsTable">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Company</th>
+                  <th>Role</th>
+                  <th>Package</th>
+                  <th>Work Mode</th>
+                  <th>Openings</th>
+                  <th>Min CGPA</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="table-card">
+            <h3 style="font-size: 16px; margin-bottom: 1rem">Applications</h3>
+            <table id="applicationsTable">
+              <thead>
+                <tr>
+                  <th>App ID</th>
+                  <th>Student</th>
+                  <th>Role</th>
+                  <th>Company</th>
+                  <th>Date</th>
+                  <th>Stage</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+      const API_BASE = "http://localhost:5000";
+      const companySelect = document.getElementById("companySelect");
+      const applicationSelect = document.getElementById("applicationSelect");
+      const applicationSelectResult = document.getElementById(
+        "applicationSelectResult",
+      );
+      const finalStatusSelect = document.getElementById("final_status");
+      const joiningDateGroup = document.getElementById("joiningDateGroup");
+
+      function showToast(message, type = "success") {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.className = `toast ${type} show`;
+        setTimeout(() => {
+          toast.className = "toast";
+        }, 3000);
+      }
+
+      async function fetchJson(url) {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(await response.text());
+        }
+        return response.json();
+      }
+
+      async function loadCompanies() {
+        try {
+          const companies = await fetchJson(`${API_BASE}/api/companies`);
+          companySelect.innerHTML =
+            '<option value="">Select Company</option>' +
+            companies
+              .map(
+                (company) =>
+                  `<option value="${company.company_id}">${company.name}</option>`,
+              )
+              .join("");
+        } catch (error) {
+          console.error(error);
+          showToast("Unable to load companies", "error");
+        }
+      }
+
+      let applicationOptions = [];
+      async function populateApplicationDropdowns() {
+        try {
+          const applications = await fetchJson(
+            `${API_BASE}/api/applications/all`,
+          );
+          applicationOptions = applications;
+          const options = applications
+            .map((app) => {
+              return `<option value="${app.application_id}">App #${app.application_id} — ${app.student_name} (${app.role})</option>`;
+            })
+            .join("");
+          const content =
+            '<option value="">Select Application</option>' + options;
+          applicationSelect.innerHTML = content;
+          applicationSelectResult.innerHTML = content;
+        } catch (error) {
+          console.error(error);
+          showToast("Unable to load applications", "error");
+        }
+      }
+
+      async function loadTables() {
+        try {
+          const students = await fetchJson(`${API_BASE}/api/students`);
+          const studentBody = document.querySelector("#studentsTable tbody");
+          studentBody.innerHTML = students
+            .map(
+              (s) => `
+            <tr>
+              <td>${s.student_id}</td>
+              <td>${s.name}</td>
+              <td>${s.email}</td>
+              <td>${s.cgpa ?? "-"}</td>
+              <td>${s.backlog ?? "-"}</td>
+              <td>${s.department_name ?? "-"}</td>
+              <td>${s.skill_set ?? "-"}</td>
+            </tr>
+          `,
+            )
+            .join("");
+        } catch (error) {
+          console.error(error);
+        }
+
+        try {
+          const jobs = await fetchJson(`${API_BASE}/api/jobs`);
+          const jobsBody = document.querySelector("#jobsTable tbody");
+          jobsBody.innerHTML = jobs
+            .map(
+              (job) => `
+            <tr>
+              <td>${job.job_id}</td>
+              <td>${job.company_name}</td>
+              <td>${job.role}</td>
+              <td>₹${job.package_offered} LPA</td>
+              <td>${job.work_mode}</td>
+              <td>${job.no_of_openings}</td>
+              <td>${job.min_cgpa ?? "-"}</td>
+            </tr>
+          `,
+            )
+            .join("");
+        } catch (error) {
+          console.error(error);
+        }
+
+        try {
+          const applications = await fetchJson(
+            `${API_BASE}/api/applications/all`,
+          );
+          const appsBody = document.querySelector("#applicationsTable tbody");
+          appsBody.innerHTML = applications
+            .map(
+              (app) => `
+            <tr>
+              <td>${app.application_id}</td>
+              <td>${app.student_name}</td>
+              <td>${app.role}</td>
+              <td>${app.company_name}</td>
+              <td>${new Date(app.application_date).toLocaleDateString()}</td>
+              <td><span class="badge badge-${app.current_stage.toLowerCase()}">${app.current_stage}</span></td>
+            </tr>
+          `,
+            )
+            .join("");
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      document
+        .getElementById("jobForm")
+        .addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const payload = {
+            company_id: Number(companySelect.value),
+            role: document.getElementById("role").value.trim(),
+            required_skills: document
+              .getElementById("required_skills")
+              .value.trim(),
+            work_mode: document.getElementById("work_mode").value,
+            experience_required: document
+              .getElementById("experience_required")
+              .value.trim(),
+            package_offered: Number(
+              document.getElementById("package_offered").value,
+            ),
+            no_of_openings: Number(
+              document.getElementById("no_of_openings").value,
+            ),
+            min_cgpa: Number(document.getElementById("min_cgpa").value),
+            max_backlogs: Number(document.getElementById("max_backlogs").value),
+            department_allowed: document
+              .getElementById("departments_allowed")
+              .value.trim(),
+          };
+
+          try {
+            await fetch(`${API_BASE}/api/jobs`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+            showToast("Job posted successfully", "success");
+            event.target.reset();
+            loadTables();
+          } catch (error) {
+            console.error(error);
+            showToast(error.message || "Job posting failed", "error");
+          }
+        });
+
+      document
+        .getElementById("interviewForm")
+        .addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const payload = {
+            application_id: Number(applicationSelect.value),
+            interview_type: document.getElementById("interview_type").value,
+            round_number: Number(document.getElementById("round_number").value),
+            interview_date: document.getElementById("interview_date").value,
+            score: document.getElementById("score").value
+              ? Number(document.getElementById("score").value)
+              : null,
+            feedback: document.getElementById("feedback").value.trim(),
+          };
+
+          try {
+            await fetch(`${API_BASE}/api/interviews`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+            showToast("Interview scheduled successfully", "success");
+            event.target.reset();
+            populateApplicationDropdowns();
+          } catch (error) {
+            console.error(error);
+            showToast(error.message || "Interview scheduling failed", "error");
+          }
+        });
+
+      document.getElementById("final_status").addEventListener("change", () => {
+        const selected = finalStatusSelect.value;
+        const joiningDateInput = document.getElementById("joining_date");
+        if (selected === "Selected") {
+          joiningDateGroup.classList.remove("hidden");
+          joiningDateInput.required = true;
+        } else {
+          joiningDateGroup.classList.add("hidden");
+          joiningDateInput.required = false;
+          joiningDateInput.value = "";
+        }
+      });
+
+      document
+        .getElementById("resultForm")
+        .addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const payload = {
+            application_id: Number(applicationSelectResult.value),
+            final_status: document.getElementById("final_status").value,
+            offer_letter_status: document.getElementById("offer_letter_status")
+              .value,
+            joining_date: document.getElementById("joining_date").value || null,
+          };
+
+          try {
+            const response = await fetch(`${API_BASE}/api/results`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+            if (response.status === 409) {
+              const body = await response.json();
+              showToast(body.error || "Result already recorded", "error");
+              return;
+            }
+            if (!response.ok) throw new Error(await response.text());
+            showToast("Result saved successfully", "success");
+            event.target.reset();
+            loadTables();
+          } catch (error) {
+            console.error(error);
+            showToast(error.message || "Result submission failed", "error");
+          }
+        });
+
+      async function initAdminPage() {
+        await Promise.all([
+          loadCompanies(),
+          populateApplicationDropdowns(),
+          loadTables(),
+        ]);
+      }
+
+      initAdminPage();
+    </script>
+  </body>
+</html>
