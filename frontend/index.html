@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recruitment Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">RecruitTrack</p>
+        <h1>Recruitment System</h1>
+        <p class="hero-copy">Manage students, job postings, applications, interviews, and results in one clean workspace.</p>
+      </div>
+    </header>
+
+    <section class="form-grid">
+      <article class="card">
+        <h2>Add Student</h2>
+        <form id="studentForm" class="stack">
+          <input name="name" type="text" placeholder="Name" required />
+          <input name="email" type="email" placeholder="Email" required />
+          <input name="phone" type="text" placeholder="Phone" />
+          <input name="dob" type="date" placeholder="Date of Birth" />
+          <input name="age" type="number" placeholder="Age" />
+          <input name="cgpa" type="number" step="0.01" placeholder="CGPA" />
+          <button type="submit">Save Student</button>
+        </form>
+      </article>
+
+      <article class="card">
+        <h2>Add Job Posting</h2>
+        <form id="jobForm" class="stack">
+          <input name="company_id" type="number" placeholder="Company ID" required />
+          <input name="role" type="text" placeholder="Role" required />
+          <input name="required_skills" type="text" placeholder="Required Skills" />
+          <input name="work_mode" type="text" placeholder="Work Mode" />
+          <input name="experience_required" type="text" placeholder="Experience Required" />
+          <input name="package_offered" type="number" step="0.01" placeholder="Package" />
+          <button type="submit">Save Job</button>
+        </form>
+      </article>
+
+      <article class="card">
+        <h2>Apply for Job</h2>
+        <form id="applyForm" class="stack">
+          <input name="student_id" type="number" placeholder="Student ID" required />
+          <input name="job_id" type="number" placeholder="Job ID" required />
+          <input name="resume_id" type="number" placeholder="Resume ID" />
+          <button type="submit">Submit Application</button>
+        </form>
+      </article>
+
+      <article class="card">
+        <h2>Schedule Interview</h2>
+        <form id="interviewForm" class="stack">
+          <input name="application_id" type="number" placeholder="Application ID" required />
+          <input name="interview_type" type="text" placeholder="Interview Type" />
+          <input name="round_number" type="number" placeholder="Round" />
+          <input name="score" type="number" step="0.01" placeholder="Score" />
+          <button type="submit">Schedule Interview</button>
+        </form>
+      </article>
+
+      <article class="card">
+        <h2>Add Result</h2>
+        <form id="resultForm" class="stack">
+          <input name="application_id" type="number" placeholder="Application ID" required />
+          <input name="offer_status" type="text" placeholder="Offer Status" />
+          <input name="offer_letter_status" type="text" placeholder="Letter Status" />
+          <input name="joining_date" type="date" placeholder="Joining Date" />
+          <button type="submit">Save Result</button>
+        </form>
+      </article>
+    </section>
+
+    <section class="tables">
+      <div class="table-card">
+        <h2>Students</h2>
+        <div class="table-scroll"><table id="studentsTable"><thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>CGPA</th></tr></thead><tbody></tbody></table></div>
+      </div>
+      <div class="table-card">
+        <h2>Jobs</h2>
+        <div class="table-scroll"><table id="jobsTable"><thead><tr><th>ID</th><th>Company</th><th>Role</th><th>Skills</th><th>Package</th></tr></thead><tbody></tbody></table></div>
+      </div>
+      <div class="table-card">
+        <h2>Applications</h2>
+        <div class="table-scroll"><table id="applicationsTable"><thead><tr><th>ID</th><th>Student</th><th>Job</th><th>Stage</th></tr></thead><tbody></tbody></table></div>
+      </div>
+      <div class="table-card">
+        <h2>Interviews</h2>
+        <div class="table-scroll"><table id="interviewsTable"><thead><tr><th>ID</th><th>Application</th><th>Type</th><th>Round</th><th>Score</th></tr></thead><tbody></tbody></table></div>
+      </div>
+      <div class="table-card">
+        <h2>Results</h2>
+        <div class="table-scroll"><table id="resultsTable"><thead><tr><th>ID</th><th>Student</th><th>Job</th><th>Status</th><th>Joining Date</th></tr></thead><tbody></tbody></table></div>
+      </div>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
