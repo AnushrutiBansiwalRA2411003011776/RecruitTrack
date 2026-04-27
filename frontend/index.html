@@ -1,98 +1,98 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RecruitTrack</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <main class="landing-shell">
-      <section class="hero-section" id="hero">
-        <div class="hero-copy">
-          <h1>RecruitTrack</h1>
-          <h2>A Recruitment Management System</h2>
-          <p class="hero-description">
-            Streamlining student placements with a structured and efficient
-            approach.
-          </p>
-          <button
-            class="hero-button"
-            onclick="
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RecruitTrack</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <main class="landing-shell">
+    <section class="hero-section" id="hero">
+      <div class="hero-copy">
+        <h1>RecruitTrack</h1>
+        <h2>A Recruitment Management System</h2>
+        <p class="hero-description">
+          Streamlining student placements with a structured and efficient
+          approach.
+        </p>
+        <button class="hero-button" onclick="
               document
                 .getElementById('about')
                 .scrollIntoView({ behavior: 'smooth' })
-            "
-          >
-            Explore
-          </button>
-        </div>
-      </section>
+            ">
+          Explore
+        </button>
+      </div>
+    </section>
 
-      <section class="content-section" id="about">
-        <div class="section-heading">
-          <h2>About RecruitTrack</h2>
-        </div>
-        <p class="section-text">
-          RecruitTrack is designed to manage recruitment activity with clarity
-          and ease. Students and administrators connect through a smooth
-          workflow built to keep every step simple and organized.
-        </p>
-      </section>
+    <section class="content-section" id="about">
+      <div class="section-heading">
+        <h2>About RecruitTrack</h2>
+      </div>
+      <p class="section-text">
+        RecruitTrack is designed to manage recruitment activity with clarity
+        and ease. Students and administrators connect through a smooth
+        workflow built to keep every step simple and organized.
+      </p>
+    </section>
 
-      <section class="content-section" id="features">
-        <div class="section-heading">
-          <h2>Features</h2>
-        </div>
-        <div class="feature-grid">
-          <article class="feature-card">
-            <h3>Student Management</h3>
-            <p>
-              Keep student details organized and easy to access from one
-              polished dashboard.
-            </p>
-          </article>
-          <article class="feature-card">
-            <h3>Job Opportunities</h3>
-            <p>
-              Present open roles clearly so students can explore opportunities
-              with confidence.
-            </p>
-          </article>
-          <article class="feature-card">
-            <h3>Structured Workflow</h3>
-            <p>
-              Support every recruitment stage with a refined, step-by-step
-              experience.
-            </p>
-          </article>
-          <article class="feature-card">
-            <h3>Centralized System</h3>
-            <p>
-              Bring students and administrators together in one elegant
-              platform.
-            </p>
-          </article>
-        </div>
-      </section>
+    <section class="content-section" id="features">
+      <div class="section-heading">
+        <h2>Features</h2>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <h3>Student Management</h3>
+          <p>
+            Keep student details organized and easy to access from one
+            polished dashboard.
+          </p>
+        </article>
+        <article class="feature-card">
+          <h3>Job Opportunities</h3>
+          <p>
+            Present open roles clearly so students can explore opportunities
+            with confidence.
+          </p>
+        </article>
+        <article class="feature-card">
+          <h3>Structured Workflow</h3>
+          <p>
+            Support every recruitment stage with a refined, step-by-step
+            experience.
+          </p>
+        </article>
+        <article class="feature-card">
+          <h3>Centralized System</h3>
+          <p>
+            Bring students and administrators together in one elegant
+            platform.
+          </p>
+        </article>
+      </div>
+    </section>
 
-      <section class="content-section role-section" id="roles">
-        <div class="section-heading">
-          <h2>Get Started</h2>
-        </div>
-        <div class="role-actions">
-          <button
-            class="role-button"
-            onclick="window.location = 'student.html'"
-          >
-            Continue as Student
-          </button>
-          <button class="role-button" onclick="window.location = 'admin.html'">
-            Continue as Admin
-          </button>
-        </div>
-      </section>
-    </main>
-    <script src="script.js"></script>
-  </body>
+    <section class="content-section role-section" id="roles">
+      <div class="section-heading">
+        <h2>Get Started</h2>
+      </div>
+      <div class="role-actions">
+        <button class="role-button" onclick="window.location = 'student.html'">
+          Continue as Student
+        </button>
+        <button class="role-button" onclick="window.location = 'add-student.html'">
+          Add Student Profile
+        </button>
+        <button class="role-button" onclick="window.location = 'admin.html'">
+          Continue as Admin
+        </button>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+
 </html>

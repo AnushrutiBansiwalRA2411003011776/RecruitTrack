@@ -14,7 +14,7 @@ router.post("/apply", async (req, res) => {
     }
 
     const [result] = await db.execute(
-      "INSERT INTO application (student_id, job_id, current_stage) VALUES (?, ?, ?)",
+      "INSERT INTO application (student_id, job_id, current_stage, application_date) VALUES (?, ?, ?, CURDATE())",
       [student_id, job_id, "Applied"],
     );
 
@@ -34,9 +34,9 @@ router.post("/apply", async (req, res) => {
 router.get("/applications", async (req, res) => {
   console.log("[ROUTE] /api/applications called", req.query);
   try {
-    const { student_id } = req.query;
+    const student_id = req.query.student_id || req.query.studentId;
     if (!student_id) {
-      return res.status(400).json({ error: "student_id is required" });
+      return res.status(400).json({ error: "student_id or studentId is required" });
     }
 
     const [rows] = await db.execute(
@@ -44,6 +44,7 @@ router.get("/applications", async (req, res) => {
               s.name AS student_name,
               jp.role AS job_role,
               c.company_name,
+              a.application_date,
               a.current_stage
        FROM Application a
        JOIN Student s ON a.student_id = s.student_id

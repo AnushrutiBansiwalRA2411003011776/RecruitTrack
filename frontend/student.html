@@ -1,431 +1,352 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Student Dashboard - RecruitTrack</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      :root {
-        --primary-color: #4f46e5;
-        --secondary-color: #6b7280;
-        --background-color: #F2F0EF;
-        --card-background: #ffffff;
-        --border-color: #e5e7eb;
-        --text-primary: #111827;
-        --text-secondary: #6b7280;
-        --success-color: #10b981;
-        --error-color: #ef4444;
-        --warning-color: #f59e0b;
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Dashboard - RecruitTrack</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary-color: #4f46e5;
+      --secondary-color: #6b7280;
+      --background-color: #F2F0EF;
+      --card-background: #ffffff;
+      --border-color: #e5e7eb;
+      --text-primary: #111827;
+      --text-secondary: #6b7280;
+      --success-color: #10b981;
+      --error-color: #ef4444;
+      --warning-color: #f59e0b;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      background-color: var(--background-color);
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    .header {
+      background-color: var(--card-background);
+      padding: 1rem 2rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .back-btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: background-color 0.2s;
+    }
+
+    .back-btn:hover {
+      background-color: #3730a3;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .section {
+      margin-bottom: 3rem;
+    }
+
+    .section h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+    }
+
+    .card {
+      background-color: var(--card-background);
+      border: 1px solid var(--border-color);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      font-family: inherit;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: background-color 0.2s;
+    }
+
+    .btn:hover {
+      background-color: #3730a3;
+    }
+
+    .jobs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .job-card {
+      background-color: var(--card-background);
+      border: 1px solid var(--border-color);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .job-card h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .job-card p {
+      margin-bottom: 0.25rem;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .job-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .job-tag {
+      background-color: #f3f4f6;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .table th {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .status-badge {
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .status-applied {
+      background-color: #dbeafe;
+      color: #1e40af;
+    }
+
+    .status-interview {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-offer {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+
+    .status-rejected {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+
+    .result-card {
+      background-color: var(--card-background);
+      border: 1px solid var(--border-color);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
       }
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+      100% {
+        transform: rotate(360deg);
       }
+    }
 
-      body {
-        font-family: 'Times New Roman', Times, serif;
-        background-color: var(--background-color);
-        color: var(--text-primary);
-        line-height: 1.6;
-      }
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: var(--primary-color);
+      color: #F2F0EF;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
 
-      .header {
-        background-color: var(--card-background);
-        padding: 1rem 2rem;
-        border-bottom: 1px solid var(--border-color);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      }
+    .toast.show {
+      opacity: 1;
+    }
 
-      .header h1 {
-        font-size: 1.5rem;
-        font-weight: 600;
-      }
+    .toast.error {
+      background-color: var(--error-color);
+    }
 
-      .back-btn {
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-        padding: 0.5rem 1rem;
-        border-radius: 0.5rem;
-        cursor: pointer;
-        font-size: 0.875rem;
-        transition: background-color 0.2s;
-      }
+    .toast.success {
+      background-color: var(--success-color);
+    }
 
-      .back-btn:hover {
-        background-color: #3730a3;
-      }
-
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 2rem;
-      }
-
-      .section {
-        margin-bottom: 3rem;
-      }
-
-      .section h2 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        margin-bottom: 1.5rem;
-        color: var(--text-primary);
-      }
-
-      .card {
-        background-color: var(--card-background);
-        border: 1px solid var(--border-color);
-        border-radius: 0.75rem;
-        padding: 1.5rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      }
-
+    @media (max-width: 768px) {
       .form-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-      }
-
-      .form-group {
-        margin-bottom: 1rem;
-      }
-
-      .form-group label {
-        display: block;
-        font-size: 0.875rem;
-        font-weight: 500;
-        margin-bottom: 0.5rem;
-        color: var(--text-primary);
-      }
-
-      .form-group input,
-      .form-group select,
-      .form-group textarea {
-        width: 100%;
-        padding: 0.75rem;
-        border: 1px solid var(--border-color);
-        border-radius: 0.5rem;
-        font-size: 0.875rem;
-        font-family: inherit;
-      }
-
-      .form-group textarea {
-        resize: vertical;
-        min-height: 80px;
-      }
-
-      .btn {
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-        padding: 0.75rem 1.5rem;
-        border-radius: 0.5rem;
-        cursor: pointer;
-        font-size: 0.875rem;
-        font-weight: 500;
-        transition: background-color 0.2s;
-      }
-
-      .btn:hover {
-        background-color: #3730a3;
+        grid-template-columns: 1fr;
       }
 
       .jobs-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 1.5rem;
+        grid-template-columns: 1fr;
       }
 
-      .job-card {
-        background-color: var(--card-background);
-        border: 1px solid var(--border-color);
-        border-radius: 0.75rem;
-        padding: 1.5rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      }
-
-      .job-card h3 {
-        font-size: 1.125rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-      }
-
-      .job-card p {
-        margin-bottom: 0.25rem;
-        font-size: 0.875rem;
-        color: var(--text-secondary);
-      }
-
-      .job-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        margin-bottom: 1rem;
-      }
-
-      .job-tag {
-        background-color: #f3f4f6;
-        padding: 0.25rem 0.5rem;
-        border-radius: 0.25rem;
-        font-size: 0.75rem;
-        color: var(--text-secondary);
-      }
-
-      .table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      .table th,
-      .table td {
-        padding: 0.75rem;
-        text-align: left;
-        border-bottom: 1px solid var(--border-color);
-      }
-
-      .table th {
-        font-weight: 600;
-        color: var(--text-primary);
-      }
-
-      .status-badge {
-        padding: 0.25rem 0.5rem;
-        border-radius: 0.25rem;
-        font-size: 0.75rem;
-        font-weight: 500;
-      }
-
-      .status-applied {
-        background-color: #dbeafe;
-        color: #1e40af;
-      }
-
-      .status-interview {
-        background-color: #fef3c7;
-        color: #92400e;
-      }
-
-      .status-offer {
-        background-color: #d1fae5;
-        color: #065f46;
-      }
-
-      .status-rejected {
-        background-color: #fee2e2;
-        color: #991b1b;
-      }
-
-      .result-card {
-        background-color: var(--card-background);
-        border: 1px solid var(--border-color);
-        border-radius: 0.75rem;
-        padding: 1.5rem;
-        margin-top: 1rem;
-      }
-
-      .loading {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        border: 3px solid #f3f3f3;
-        border-top: 3px solid var(--primary-color);
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-      }
-
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-
-      .toast {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background-color: var(--primary-color);
-        color: #F2F0EF;
+      .container {
         padding: 1rem;
-        border-radius: 0.5rem;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-        opacity: 0;
-        transition: opacity 0.3s;
       }
+    }
+  </style>
+</head>
 
-      .toast.show {
-        opacity: 1;
-      }
+<body>
+  <header class="header">
+    <h1>Student Dashboard</h1>
+    <button class="back-btn" onclick="window.location = 'index.html'">
+      Back to Home
+    </button>
+  </header>
 
-      .toast.error {
-        background-color: var(--error-color);
-      }
+  <div class="container">
+    <section class="section">
+      <div class="card">
+        <label for="studentSelector"><strong>You are browsing as Student ID:</strong></label>
+        <select id="studentSelector"></select>
+      </div>
+    </section>
+    <section class="section">
+      <h2>Available Jobs</h2>
+      <div id="jobsContainer" class="jobs-grid">
+        <div class="loading"></div>
+      </div>
+    </section>
 
-      .toast.success {
-        background-color: var(--success-color);
-      }
+    <section class="section">
+      <h2>My Applications</h2>
+      <div class="card">
+        <table class="table" id="applicationsTable">
+          <thead>
+            <tr>
+              <th>Application ID</th>
+              <th>Job Role</th>
+              <th>Company</th>
+              <th>Date Applied</th>
+              <th>Current Stage</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
 
-      @media (max-width: 768px) {
-        .form-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .jobs-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .container {
-          padding: 1rem;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <header class="header">
-      <h1>Student Dashboard</h1>
-      <button class="back-btn" onclick="window.location = 'index.html'">
-        Back to Home
-      </button>
-    </header>
-
-    <div class="container">
-      <section class="section">
-        <div class="card">
-          <label for="studentSelector"
-            ><strong>You are browsing as Student ID:</strong></label
-          >
-          <select id="studentSelector"></select>
-        </div>
-      </section>
-      <section class="section">
-        <h2>Add Student Profile</h2>
-        <div class="card">
-          <form id="studentForm" class="form-grid">
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input type="text" id="name" name="name" required />
-            </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" required />
-            </div>
-            <div class="form-group">
-              <label for="phone">Phone</label>
-              <input type="text" id="phone" name="phone" required />
-            </div>
-            <div class="form-group">
-              <label for="dob">Date of Birth</label>
-              <input type="date" id="dob" name="dob" required />
-            </div>
-            <div class="form-group">
-              <label for="age">Age</label>
-              <input type="number" id="age" name="age" required />
-            </div>
-            <div class="form-group">
-              <label for="tenth_percent">10th Percentage</label>
-              <input
-                type="number"
-                step="0.01"
-                id="tenth_percent"
-                name="tenth_percent"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="twelfth_percent">12th Percentage</label>
-              <input
-                type="number"
-                step="0.01"
-                id="twelfth_percent"
-                name="twelfth_percent"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="cgpa">CGPA</label>
-              <input type="number" step="0.01" id="cgpa" name="cgpa" required />
-            </div>
-            <div class="form-group">
-              <label for="yos">Years of Study</label>
-              <input type="number" id="yos" name="yos" required />
-            </div>
-            <div class="form-group">
-              <label for="backlog">Backlog Count</label>
-              <input type="number" id="backlog" name="backlog" required />
-            </div>
-            <div class="form-group">
-              <label for="department">Department</label>
-              <select id="department" name="department" required>
-                <option value="">Select Department</option>
-              </select>
-            </div>
-            <div class="form-group form-grid-full">
-              <label for="skill_set">Skill Set</label>
-              <textarea id="skill_set" name="skill_set" required></textarea>
-            </div>
-            <div class="form-group form-grid-full">
-              <button type="submit" class="btn">Add Profile</button>
-            </div>
-          </form>
-        </div>
-      </section>
-
-      <section class="section">
-        <h2>Available Jobs</h2>
-        <div id="jobsContainer" class="jobs-grid">
-          <div class="loading"></div>
-        </div>
-      </section>
-
-      <section class="section">
-        <h2>My Applications</h2>
-        <div class="card">
-          <table class="table" id="applicationsTable">
-            <thead>
-              <tr>
-                <th>Application ID</th>
-                <th>Job Role</th>
-                <th>Company</th>
-                <th>Date Applied</th>
-                <th>Current Stage</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="section">
-        <h2>Check Result</h2>
-        <div class="card">
-          <div class="form-group">
-            <label for="applicationId">Application ID</label>
-            <input type="number" id="applicationId" required />
-          </div>
-          <button onclick="checkResult()" class="btn">Check Result</button>
-          <div id="resultDisplay"></div>
-        </div>
-      </section>
-    </div>
+    <section class="section">
+      <h2>Application Status Statistics</h2>
+      <div class="card" style="max-width: 500px; margin: 0 auto;">
+        <canvas id="statusChart"></canvas>
+      </div>
+    </section>
 
     <div id="toast" class="toast"></div>
 
     <script>
       const API_BASE = "http://localhost:5000";
       let currentStudentId = null;
+      let statusChart = null;
 
       // Toast notification
       function showToast(message, type = "success") {
@@ -516,12 +437,12 @@
                         <p><strong>Min CGPA:</strong> ${job.min_cgpa ?? "-"}</p>
                         <div class="job-tags">
                             ${job.required_skills
-                              .split(",")
-                              .map(
-                                (skill) =>
-                                  `<span class="job-tag">${skill.trim()}</span>`,
-                              )
-                              .join("")}
+                .split(",")
+                .map(
+                  (skill) =>
+                    `<span class="job-tag">${skill.trim()}</span>`,
+                )
+                .join("")}
                         </div>
                         <button class="btn" onclick="applyForJob(${job.job_id})">Apply</button>
                     `;
@@ -583,6 +504,7 @@
           if (!applications || applications.length === 0) {
             tbody.innerHTML =
               "<tr><td colspan=5>No applications found.</td></tr>";
+            updateChart([]);
             return;
           }
 
@@ -597,82 +519,61 @@
                     `;
             tbody.appendChild(row);
           });
+
+          updateChart(applications);
         } catch (error) {
           console.error("Error loading applications:", error);
         }
       }
 
-      // Check result
-      async function checkResult() {
-        const applicationId = document.getElementById("applicationId").value;
-        if (!applicationId) {
-          showToast("Please enter an Application ID.", "error");
-          return;
+      function updateChart(applications) {
+        const statusCounts = applications.reduce((acc, app) => {
+          const status = app.current_stage;
+          acc[status] = (acc[status] || 0) + 1;
+          return acc;
+        }, {});
+
+        const labels = Object.keys(statusCounts);
+        const data = Object.values(statusCounts);
+
+        if (statusChart) {
+          statusChart.destroy();
         }
 
-        try {
-          const response = await fetch(
-            `${API_BASE}/api/result?application_id=${applicationId}`,
-          );
-          if (response.ok) {
-            const result = await response.json();
-            const display = document.getElementById("resultDisplay");
-            display.innerHTML = `
-                        <div class="result-card">
-                            <h3>Result for Application ${applicationId}</h3>
-                            <p><strong>Offer Status:</strong> ${result.offer_status}</p>
-                            <p><strong>Offer Letter Status:</strong> ${result.offer_letter_status}</p>
-                            ${result.joining_date ? `<p><strong>Joining Date:</strong> ${new Date(result.joining_date).toLocaleDateString()}</p>` : ""}
-                            ${result.feedback ? `<p><strong>Feedback:</strong> ${result.feedback}</p>` : ""}
-                        </div>
-                    `;
-          } else {
-            document.getElementById("resultDisplay").innerHTML =
-              "<p>No result found for this Application ID.</p>";
-          }
-        } catch (error) {
-          console.error("Error checking result:", error);
-          showToast("Error checking result.", "error");
-        }
-      }
-
-      // Form submit
-      document
-        .getElementById("studentForm")
-        .addEventListener("submit", async (e) => {
-          e.preventDefault();
-          const formData = new FormData(e.target);
-          const data = Object.fromEntries(formData);
-          // Sanitize data to prevent JSON errors
-          Object.keys(data).forEach((key) => {
-            if (typeof data[key] === "string") {
-              data[key] = data[key].replace(/\\/g, "\\\\"); // Escape backslashes
+        const ctx = document.getElementById('statusChart').getContext('2d');
+        statusChart = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Application Status',
+              data: data,
+              backgroundColor: [
+                '#4f46e5', // Applied
+                '#10b981', // Offer
+                '#f59e0b', // Interview
+                '#ef4444', // Rejected
+                '#6b7280'  // Others
+              ],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: 'bottom',
+              },
+              title: {
+                display: true,
+                text: 'Applications by Status'
+              }
             }
-          });
-          if (!data.department || isNaN(parseInt(data.department))) {
-            showToast("Please select a valid department.", "error");
-            return;
-          }
-          data.department_id = parseInt(data.department);
-
-          try {
-            const response = await fetch(`${API_BASE}/api/students`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(data),
-            });
-            if (response.ok) {
-              showToast("Profile added successfully!");
-              e.target.reset();
-            } else {
-              const errorData = await response.json();
-              showToast(errorData.error || "Error adding profile.", "error");
-            }
-          } catch (error) {
-            console.error("Error adding profile:", error);
-            showToast("Error adding profile.", "error");
           }
         });
+      }
+
+      // Form submit handler removed as form was moved to add-student.html
 
       // Initialize
       document.addEventListener("DOMContentLoaded", () => {
@@ -681,5 +582,6 @@
         loadJobs();
       });
     </script>
-  </body>
+</body>
+
 </html>

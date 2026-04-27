@@ -14,6 +14,18 @@ const interviewRoutes = require("./routes/interviewRoutes");
 const resultRoutes = require("./routes/resultRoutes");
 const companyRoutes = require("./routes/companyRoutes");
 
+async function ensureInterviewDateColumn() {
+  try {
+    await db.execute(
+      "ALTER TABLE Interview ADD COLUMN interview_date DATE AFTER interview_type",
+    );
+  } catch (error) {
+    if (error.errno !== 1060 && error.code !== "ER_DUP_FIELDNAME") {
+      console.warn("Interview date migration failed:", error.message);
+    }
+  }
+}
+
 async function ensureInterviewScoreColumn() {
   try {
     await db.execute(
@@ -26,7 +38,12 @@ async function ensureInterviewScoreColumn() {
   }
 }
 
-ensureInterviewScoreColumn();
+async function runMigrations() {
+  await ensureInterviewDateColumn();
+  await ensureInterviewScoreColumn();
+}
+
+runMigrations();
 
 app.use("/students", studentRoutes);
 app.use("/jobs", jobRoutes);
@@ -137,32 +154,7 @@ app.get("/api/applications/all", async (req, res) => {
   }
 });
 
-app.post("/api/interviews", async (req, res) => {
-  try {
-    const {
-      application_id,
-      interview_type,
-      interview_date,
-      round_number,
-      score,
-      feedback,
-    } = req.body;
-    const [result] = await db.execute(
-      "INSERT INTO interview (application_id, interview_type, interview_date, round_number, score, feedback) VALUES (?, ?, ?, ?, ?, ?)",
-      [
-        application_id,
-        interview_type,
-        interview_date,
-        round_number,
-        score,
-        feedback,
-      ],
-    );
-    res.status(201).json({ id: result.insertId });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// Interview routes are handled in routes/interviewRoutes.js
 
 app.post("/api/results", async (req, res) => {
   try {

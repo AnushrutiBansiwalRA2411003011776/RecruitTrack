@@ -2,18 +2,38 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db/connection");
 
-router.post("/interview", async (req, res) => {
+router.post("/interviews", async (req, res) => {
   try {
-    const { application_id, interview_type, round_number, score, feedback } =
-      req.body;
+    const {
+      application_id,
+      interview_type,
+      interview_date,
+      round_number,
+      score,
+      feedback,
+    } = req.body;
+
     const [result] = await db.execute(
-      "INSERT INTO interview (application_id, interview_type, round_number, score, feedback) VALUES (?, ?, ?, ?, ?)",
-      [application_id, interview_type, round_number, score, feedback],
+      "INSERT INTO interview (application_id, interview_type, interview_date, round_number, score, feedback) VALUES (?, ?, ?, ?, ?, ?)",
+      [
+        application_id,
+        interview_type,
+        interview_date,
+        round_number,
+        score,
+        feedback,
+      ],
     );
-    res
-      .status(201)
-      .json({ message: "Interview scheduled", id: result.insertId });
+
+    // Update application stage to Interview
+    await db.execute(
+      "UPDATE application SET current_stage = 'Interview' WHERE application_id = ?",
+      [application_id],
+    );
+
+    res.status(201).json({ message: "Interview scheduled", id: result.insertId });
   } catch (error) {
+    console.error("Interview scheduling error:", error);
     res.status(500).json({ error: error.message });
   }
 });
